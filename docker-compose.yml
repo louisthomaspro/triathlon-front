@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  angular:
+    build:
+      context: .
+    volumes:
+      - '.:/app'
+      - /app/node_modules
+    ports:
+      - '4201:4200'
