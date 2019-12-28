@@ -1,4 +1,9 @@
-### STAGE 1: Build ###
+# https://mherman.org/blog/dockerizing-an-angular-app/
+
+
+#############
+### build ###
+#############
 
 # base image
 FROM node
@@ -15,11 +20,13 @@ WORKDIR /app
 COPY . .
 
 # install dependencies
-RUN npm install && \
-    npm run build
-
-# install angular
+RUN npm install
 RUN npm install -g @angular/cli
+
+
+#############
+### local ###
+#############
 
 # start app
 CMD ng serve --host 0.0.0.0

@@ -1,0 +1,60 @@
+#############
+### build ###
+#############
+
+# https://mherman.org/blog/dockerizing-an-angular-app/
+
+
+#############
+### build ###
+#############
+
+# base image
+FROM node as build
+
+# install chrome for protractor tests
+
+# Install Google Chrome
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+    && apt-get update && apt-get install -y google-chrome-stable
+
+# This line is to tell karma-chrome-launcher where
+# chromium was downloaded and installed to.
+ENV CHROME_BIN=/usr/bin/google-chrome
+
+# set working directory
+WORKDIR /app
+
+# add app
+COPY . .
+
+# install dependencies
+RUN npm install
+RUN npm install -g @angular/cli
+
+# run tests
+RUN ng test --watch=false
+RUN ng e2e --port 4202
+
+# generate build
+RUN ng build --output-path=dist
+
+
+############
+### prod ###
+############
+
+# base image
+FROM nginx
+
+WORKDIR /usr/share/nginx/html
+
+# copy artifact build from the 'build environment'
+COPY --from=build /app/dist .
+
+# expose port 80
+EXPOSE 80
+
+# run nginx
+CMD ["nginx", "-g", "daemon off;"]
