@@ -25,3 +25,13 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+# will remove everything
+docker container rm -f $(docker container ls -qa)
+docker image rm -f $(docker image ls -q)
+
+https://stackoverflow.com/questions/38425996/docker-compose-volume-on-node-modules-but-is-empty
+
+docker ps
+docker cp bc159b90db88:/app/node_modules /home/louis/Public/monpanier-front/
