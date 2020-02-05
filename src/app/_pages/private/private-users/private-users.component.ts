@@ -1,42 +1,80 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from '@/_services/user.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatPaginator, MatSort, MatSnackBar, MatDialog } from '@angular/material';
+import { PrivateContainerComponent } from '../private-container/private-container.component';
 import { first } from 'rxjs/operators';
-import { User } from '@/_models/user';
 import { ConfirmationDialogComponent } from '@/_dialogs/confirmation-dialog/confirmation-dialog.component';
-import { MatDialog } from '@angular/material';
+import { StoreService } from '@/_services/store.service';
 
 @Component({
   selector: 'app-private-users',
   templateUrl: './private-users.component.html',
   styleUrls: ['./private-users.component.scss']
 })
+
 export class PrivateUsersComponent implements OnInit {
+  displayedColumns: string[] = ['email', 'roles', 'action'];
+  dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
 
-  loading = false;
-  users: User[] = [];
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-    constructor(
-      private userService: UserService,
-      public dialog: MatDialog
-      ) { }
+  constructor(
+    private storeService: StoreService,
+    private privateContainer: PrivateContainerComponent,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog
+  ) {
+  }
 
-    ngOnInit() {
-        this.loading = true;
+  ngOnInit() {
+    this.storeService.getUsers(this.privateContainer.getStoreId()).pipe(first()).subscribe(users => {
+      this.dataSource.data = users['hydra:member'];
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      console.log(users);
+    });
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
+  }
+
+  deleteUser(row: any) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: "Delete user",
+        text: 'Are you sure you want to delete the user "' + row.email + '" ?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.storeService.deleteUser(row.id).pipe(first()).subscribe(
+          data => {
+            this.deleteRowData(row);
+            this.snackBar.open('User deleted !! :)', '', {
+              duration: 3000
+            });
+          },
+          error => {
+            console.log(error);
+            this.snackBar.open('Error', '', {
+              duration: 3000
+            });
+          });
+      }
+    });
+  }
 
 
-    test() {
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        data: {
-          title: "Suppression du panier",
-          text: 'Êtes vous sûr de vouloir supprimer le panier'
-        }
-      });
-  
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          console.log(result);
-        }
-      });
-    }
+  deleteRowData(row: any) {
+    const index = this.dataSource.data.indexOf(row);
+    this.dataSource.data.splice(index, 1);
+    this.dataSource._updateChangeSubscription();
+  }
+
 }

@@ -20,6 +20,9 @@ import { PrivateUsersComponent } from './_pages/private/private-users/private-us
 import { SharedModule } from './_dialogs/share.module';
 import { PrivateProductsComponent } from './_pages/private/private-products/private-products.component';
 import { PrivateProductsEditComponent } from './_pages/private/private-products-edit/private-products-edit.component';
+import { PrivateUsersEditComponent } from './_pages/private/private-users-edit/private-users-edit.component';
+import { HasRoleDirective } from './_directives/has-role.directive';
+import { RolesService } from './_services/roles.service';
 
 
 
@@ -52,12 +55,15 @@ import { PrivateProductsEditComponent } from './_pages/private/private-products-
         PrivateContainerComponent,
         PrivateUsersComponent,
         PrivateProductsComponent,
-        PrivateProductsEditComponent
+        PrivateProductsEditComponent,
+        PrivateUsersEditComponent,
+        HasRoleDirective
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        Title
+        Title,
+        RolesService
     ],
     bootstrap: [AppComponent]
 })

@@ -77,4 +77,47 @@ export class PrivateProductsComponent implements OnInit {
     this.dataSource._updateChangeSubscription();
   }
 
+
+  incProduct(row: any) {
+    this.storeService.editProduct({id: row.id, quantity: row.quantity + 1}).pipe(first()).subscribe(
+      data => {
+        const index = this.dataSource.data.indexOf(row);
+        this.dataSource.data[index].quantity += 1;
+        this.dataSource._updateChangeSubscription();
+        this.snackBar.open('Product incremented !! :)', '', {
+          duration: 3000
+        });
+      },
+      error => {
+        console.log(error);
+        this.snackBar.open('Error', '', {
+          duration: 3000
+        });
+      });
+  }
+
+  decProduct(row: any) {
+    if (row.quantity <= 0) {
+      this.snackBar.open('You can\'t decrement more !! :)', '', {
+        duration: 3000
+      });
+      return;
+    }
+    this.storeService.editProduct({id: row.id, quantity: row.quantity - 1}).pipe(first()).subscribe(
+      data => {
+        const index = this.dataSource.data.indexOf(row);
+        this.dataSource.data[index].quantity -= 1;
+        this.dataSource._updateChangeSubscription();
+        this.snackBar.open('Product decremented !! :)', '', {
+          duration: 3000
+        });
+      },
+      error => {
+        console.log(error);
+        this.snackBar.open('Error', '', {
+          duration: 3000
+        });
+      });
+  }
+
 }

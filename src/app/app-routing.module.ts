@@ -7,6 +7,7 @@ import { PrivateContainerComponent } from './_pages/private/private-container/pr
 import { PrivateUsersComponent } from './_pages/private/private-users/private-users.component';
 import { PrivateProductsComponent } from './_pages/private/private-products/private-products.component';
 import { PrivateProductsEditComponent } from './_pages/private/private-products-edit/private-products-edit.component';
+import { PrivateUsersEditComponent } from './_pages/private/private-users-edit/private-users-edit.component';
 
 
 const routes: Routes = [
@@ -38,6 +39,12 @@ const routes: Routes = [
             {
                 path: 'users',
                 component: PrivateUsersComponent,
+                canActivate: [AuthGuard],
+                data: { role: 'ADMIN' }
+            },
+            {
+                path: 'users/new',
+                component: PrivateUsersEditComponent,
                 canActivate: [AuthGuard],
                 data: { role: 'ADMIN' }
             }

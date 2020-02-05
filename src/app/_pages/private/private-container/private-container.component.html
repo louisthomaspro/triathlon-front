@@ -5,7 +5,7 @@
             <a mat-list-item routerLink="/products">
               <mat-icon>list</mat-icon>Product
             </a>
-            <a *ngIf="currentUser.data.roles.includes('ADMIN')" mat-list-item routerLink="/users">
+            <a *appHasRole="'STORE_MANAGER'" mat-list-item routerLink="/users">
               <mat-icon>group</mat-icon>Users
             </a>
           </mat-nav-list>
