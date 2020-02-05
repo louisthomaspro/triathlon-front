@@ -1,0 +1,42 @@
+<div class="container h-100">
+
+
+    <div class="row h-50">
+        <div class="logo-container">
+            <img src="/assets/logo.png" alt="Triathlon logo">
+        </div>
+    </div>
+
+
+
+    <div class="row h-50 justify-content-center">
+        <div class="col-sm-8 col-md-6 col-lg-4">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+                <div class="form-group">
+                    <mat-form-field class="w-100">
+                        <input formControlName="email" matInput placeholder="Enter your email" required>
+                    </mat-form-field>
+                </div>
+                <div class="form-group">
+                    <mat-form-field class="w-100">
+                        <input formControlName="password" matInput placeholder="Enter your password"
+                            [type]="hide ? 'password' : 'text'">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="form-group text-center">
+                    <button [disabled]="loading" mat-flat-button color="primary" class="mx-2">Se connecter<span
+                            *ngIf="loading" class="spinner-border spinner-border-sm"></span></button>
+                    <button routerLink="/register" mat-stroked-button color="primary" class="mx-2">S'inscrire</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

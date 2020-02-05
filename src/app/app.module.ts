@@ -1,19 +1,23 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // used to create fake backend
 // import { fakeBackendProvider } from '@/_helpers/';
 
-import { appRoutingModule } from '@/app.routing'
+import { AppRoutingModule } from '@/app-routing.module'
 import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
-import { ErrorInterceptor } from './_helpers/error.interceptor';
+import { ErrorInterceptor } from '@/_helpers/error.interceptor';
 import { AppComponent } from '@/app.component';
-import { HomeComponent } from '@/pages/home/home.component';
-import { LoginComponent } from '@/pages/login/login.component';
-import { RegisterComponent } from '@/pages/register/register.component';
-import { AlertComponent } from '@/_components/alert/alert.component';
+import { LoginComponent } from '@/_pages/public/login/login.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule, MatIconModule, MatInputModule, MatTableModule, MatTabsModule, MatCardModule, MatDividerModule, MatSidenavModule, MatListModule } from '@angular/material';
+import { AlertComponent } from './_components/alert/alert.component';
+import { PrivateContainerComponent } from './_pages/private/private-container/private-container.component';
+import { PrivateUsersComponent } from './_pages/private/private-users/private-users.component';
+import { SharedModule } from './share.module';
 
 
 @NgModule({
@@ -21,18 +25,32 @@ import { AlertComponent } from '@/_components/alert/alert.component';
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
-        appRoutingModule
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatIconModule,
+        MatInputModule,
+        MatTableModule,
+        MatTabsModule,
+        MatCardModule,
+        SharedModule,
+        MatDividerModule,
+        MatSidenavModule,
+        MatListModule,
+        MatIconModule
     ],
     declarations: [
         AppComponent,
-        HomeComponent,
         LoginComponent,
-        RegisterComponent,
-        AlertComponent
+        AlertComponent,
+        PrivateContainerComponent,
+        PrivateUsersComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        Title
     ],
     bootstrap: [AppComponent]
 })

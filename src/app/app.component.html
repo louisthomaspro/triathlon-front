@@ -1,19 +1,22 @@
-<!-- nav -->
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
-  <div class="navbar-nav">
-      <a class="nav-item nav-link" routerLink="/">Home</a>
-      <a class="nav-item nav-link" (click)="logout()">Logout</a>
+<div class="top-bar">
+  <div class="logo-container" routerLink="/"><img src="/assets/medal.png" alt="">
   </div>
-</nav>
+  <div *ngIf="currentUser" class="account-menu">
+      <!-- <span class="d-none d-sm-block">louisthomas.pro@gmail.com</span> -->
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+          <div class="currentAccount">{{currentUser?.data.email}}</div>
+          <button mat-menu-item (click)="logout()">Logout</button>
+      </mat-menu>
+  </div>
 
-<!-- main app container -->
-<div class="jumbotron">
-  <div class="container">
-      <div class="row">
-          <div class="col-sm-6 offset-sm-3">
-              <alert></alert>
-              <router-outlet></router-outlet>
-          </div>
-      </div>
-  </div>
 </div>
+
+<div class="app-container">
+  <alert></alert>
+
+  <div class="app-content">
+    <router-outlet></router-outlet>
+  </div>

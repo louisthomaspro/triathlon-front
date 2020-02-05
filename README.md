@@ -34,4 +34,4 @@ docker image rm -f $(docker image ls -q)
 https://stackoverflow.com/questions/38425996/docker-compose-volume-on-node-modules-but-is-empty
 
 docker ps
-docker cp bc159b90db88:/app/node_modules /home/louis/Public/monpanier-front/
+docker cp bc159b90db88:/app/node_modules /home/louis/Public/triathlon-front/

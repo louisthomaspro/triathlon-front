@@ -1,6 +1,9 @@
 export class User {
-    id: number;
-    email: string;
-    password: string;
-    token: string;
+    token?: string;
+    data : {
+        id: string;
+        roles: string[];
+        email: string;
+        seller_url: string;
+    }
 }

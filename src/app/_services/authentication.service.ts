@@ -12,7 +12,9 @@ export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient
+    ) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
@@ -22,19 +24,23 @@ export class AuthenticationService {
     }
 
     login(email: string, password: string) {
-        return this.http.post(`${environment.apiUrl}/login`, { "email" : email, "password" : password })
+        return this.http.post<any>(`${environment.apiUrl}/login`, { "email": email, "password": password })
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
-                // @ts-ignore
-                if (user && user.token) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                    // @ts-ignore
-                    this.currentUserSubject.next(user);
-                }
-
-                return user;
+                console.log(user);
+                return this.userStorage(user);
             }));
+    }
+
+    userStorage(user) {
+        if (user && user.token) {
+            let userObject: User = user;
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            localStorage.setItem('currentUser', JSON.stringify(userObject));
+            this.currentUserSubject.next(userObject);
+        }
+
+        return user;
     }
 
     logout() {
@@ -42,4 +48,6 @@ export class AuthenticationService {
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }
+
+
 }
