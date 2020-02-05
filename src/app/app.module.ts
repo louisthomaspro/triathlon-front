@@ -13,11 +13,14 @@ import { AppComponent } from '@/app.component';
 import { LoginComponent } from '@/_pages/public/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule, MatIconModule, MatInputModule, MatTableModule, MatTabsModule, MatCardModule, MatDividerModule, MatSidenavModule, MatListModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatInputModule, MatTableModule, MatTabsModule, MatCardModule, MatDividerModule, MatSidenavModule, MatListModule, MatPaginatorModule, MatSnackBarModule } from '@angular/material';
 import { AlertComponent } from './_components/alert/alert.component';
 import { PrivateContainerComponent } from './_pages/private/private-container/private-container.component';
 import { PrivateUsersComponent } from './_pages/private/private-users/private-users.component';
-import { SharedModule } from './share.module';
+import { SharedModule } from './_dialogs/share.module';
+import { PrivateProductsComponent } from './_pages/private/private-products/private-products.component';
+import { PrivateProductsEditComponent } from './_pages/private/private-products-edit/private-products-edit.component';
+
 
 
 @NgModule({
@@ -38,14 +41,18 @@ import { SharedModule } from './share.module';
         MatDividerModule,
         MatSidenavModule,
         MatListModule,
-        MatIconModule
+        MatIconModule,
+        MatPaginatorModule,
+        MatSnackBarModule
     ],
     declarations: [
         AppComponent,
         LoginComponent,
         AlertComponent,
         PrivateContainerComponent,
-        PrivateUsersComponent
+        PrivateUsersComponent,
+        PrivateProductsComponent,
+        PrivateProductsEditComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

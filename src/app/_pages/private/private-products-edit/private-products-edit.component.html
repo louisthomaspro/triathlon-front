@@ -1,0 +1,22 @@
+<h3>Products creation</h3>
+
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+        <mat-form-field>
+            <input matInput placeholder="Product name" formControlName="name">
+        </mat-form-field>
+    </div>
+
+
+    <div class="form-group">
+        <mat-form-field>
+            <input matInput placeholder="Quantity" type="number" formControlName="quantity">
+            <span matSuffix>&euro;</span>
+        </mat-form-field>
+    </div>
+
+    <button mat-stroked-button color="warn" class="mx-1" routerLink="../">Cancel</button>
+    <button mat-raised-button color="primary" class="mx-1">Save</button>
+
+</form>

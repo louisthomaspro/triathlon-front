@@ -48,7 +48,7 @@ $barHeight: 56px;
     .logo-container {
       width: 36px;
       margin: auto;
-      line-height: $barHeight;
+      line-height: $barHeight - 1;
       cursor: pointer;
   
       img {

@@ -4,6 +4,6 @@ export class User {
         id: string;
         roles: string[];
         email: string;
-        seller_url: string;
+        store: string;
     }
 }

@@ -5,6 +5,8 @@ import { AuthGuard } from '@/_helpers/auth.guard';
 import { LoginComponent } from '@/_pages/public/login/login.component';
 import { PrivateContainerComponent } from './_pages/private/private-container/private-container.component';
 import { PrivateUsersComponent } from './_pages/private/private-users/private-users.component';
+import { PrivateProductsComponent } from './_pages/private/private-products/private-products.component';
+import { PrivateProductsEditComponent } from './_pages/private/private-products-edit/private-products-edit.component';
 
 
 const routes: Routes = [
@@ -23,7 +25,13 @@ const routes: Routes = [
         children: [
             {
                 path: 'products',
-                component: PrivateUsersComponent,
+                component: PrivateProductsComponent,
+                canActivate: [AuthGuard],
+                data: { role: 'SELLER' }
+            },
+            {
+                path: 'products/new',
+                component: PrivateProductsEditComponent,
                 canActivate: [AuthGuard],
                 data: { role: 'SELLER' }
             },

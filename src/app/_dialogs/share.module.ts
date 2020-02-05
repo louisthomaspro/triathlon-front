@@ -1,4 +1,4 @@
-import { ConfirmationDialogComponent } from "./_dialogs/confirmation-dialog/confirmation-dialog.component";
+import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-dialog.component";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { MatDialogModule, MatButtonModule } from "@angular/material";
