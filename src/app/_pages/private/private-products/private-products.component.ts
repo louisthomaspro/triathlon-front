@@ -4,6 +4,8 @@ import { PrivateContainerComponent } from '../private-container/private-containe
 import { first } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from '@/_dialogs/confirmation-dialog/confirmation-dialog.component';
 import { StoreService } from '@/_services/store.service';
+import { AuthenticationService } from '@/_services/authentication.service';
+import { AdminService } from '@/_services/admin.service';
 
 @Component({
   selector: 'app-private-products',
@@ -12,7 +14,7 @@ import { StoreService } from '@/_services/store.service';
 })
 
 export class PrivateProductsComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'quantity', 'action'];
+  displayedColumns: string[];
   dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -20,19 +22,32 @@ export class PrivateProductsComponent implements OnInit {
 
   constructor(
     private storeService: StoreService,
+    private adminService: AdminService,
     private privateContainer: PrivateContainerComponent,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private authentificationService: AuthenticationService
   ) {
   }
 
   ngOnInit() {
-    this.storeService.getProducts(this.privateContainer.getStoreId()).pipe(first()).subscribe(products => {
-      this.dataSource.data = products['hydra:member'];
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      console.log(products);
-    });
+    if (this.authentificationService.currentUserValue.data.roles.includes('ADMIN')) {
+      this.adminService.getProducts().pipe(first()).subscribe(products => {
+        this.displayedColumns = ['name', 'quantity', 'store', 'action'];
+        this.dataSource.data = products['hydra:member'];
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        console.log(products);
+      });
+    } else {
+      this.storeService.getProducts(this.privateContainer.getStoreId()).pipe(first()).subscribe(products => {
+        this.displayedColumns = ['name', 'quantity', 'action'];
+        this.dataSource.data = products['hydra:member'];
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        console.log(products);
+      });
+    }
   }
 
   applyFilter(filterValue: string) {
@@ -79,7 +94,7 @@ export class PrivateProductsComponent implements OnInit {
 
 
   incProduct(row: any) {
-    this.storeService.editProduct({id: row.id, quantity: row.quantity + 1}).pipe(first()).subscribe(
+    this.storeService.editProduct({ id: row.id, quantity: row.quantity + 1 }).pipe(first()).subscribe(
       data => {
         const index = this.dataSource.data.indexOf(row);
         this.dataSource.data[index].quantity += 1;
@@ -103,7 +118,7 @@ export class PrivateProductsComponent implements OnInit {
       });
       return;
     }
-    this.storeService.editProduct({id: row.id, quantity: row.quantity - 1}).pipe(first()).subscribe(
+    this.storeService.editProduct({ id: row.id, quantity: row.quantity - 1 }).pipe(first()).subscribe(
       data => {
         const index = this.dataSource.data.indexOf(row);
         this.dataSource.data[index].quantity -= 1;
