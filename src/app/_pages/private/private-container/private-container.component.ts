@@ -23,7 +23,11 @@ export class PrivateContainerComponent implements OnInit {
 
   ngOnInit() {
     this.storeId = this.authentificationService.currentUserValue.data.store;
-    this.storeService.getStore(this.storeId).subscribe(x => { this.storeName = x.name; });
+    if (this.storeId == null) {
+      this.storeName = 'ALL (you are admin)';
+    } else {
+      this.storeService.getStore(this.storeId).subscribe(x => { this.storeName = x.name; });
+    }
   }
 
   getStoreId() {

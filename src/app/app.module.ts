@@ -13,7 +13,7 @@ import { AppComponent } from '@/app.component';
 import { LoginComponent } from '@/_pages/public/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule, MatIconModule, MatInputModule, MatTableModule, MatTabsModule, MatCardModule, MatDividerModule, MatSidenavModule, MatListModule, MatPaginatorModule, MatSnackBarModule, MatSortModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatInputModule, MatTableModule, MatTabsModule, MatCardModule, MatDividerModule, MatSidenavModule, MatListModule, MatPaginatorModule, MatSnackBarModule, MatSortModule, MatSelectModule } from '@angular/material';
 import { AlertComponent } from './_components/alert/alert.component';
 import { PrivateContainerComponent } from './_pages/private/private-container/private-container.component';
 import { PrivateUsersComponent } from './_pages/private/private-users/private-users.component';
@@ -47,7 +47,8 @@ import { RolesService } from './_services/roles.service';
         MatIconModule,
         MatPaginatorModule,
         MatSnackBarModule,
-        MatSortModule
+        MatSortModule,
+        MatSelectModule
     ],
     declarations: [
         AppComponent,
