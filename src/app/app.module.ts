@@ -13,7 +13,7 @@ import { AppComponent } from '@/app.component';
 import { LoginComponent } from '@/_pages/public/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule, MatIconModule, MatInputModule, MatTableModule, MatTabsModule, MatCardModule, MatDividerModule, MatSidenavModule, MatListModule, MatPaginatorModule, MatSnackBarModule, MatSortModule, MatSelectModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatInputModule, MatTableModule, MatTabsModule, MatCardModule, MatDividerModule, MatSidenavModule, MatListModule, MatPaginatorModule, MatSnackBarModule, MatSortModule, MatSelectModule, MatTooltipModule } from '@angular/material';
 import { AlertComponent } from './_components/alert/alert.component';
 import { PrivateContainerComponent } from './_pages/private/private-container/private-container.component';
 import { PrivateUsersComponent } from './_pages/private/private-users/private-users.component';
@@ -23,6 +23,8 @@ import { PrivateProductsEditComponent } from './_pages/private/private-products-
 import { PrivateUsersEditComponent } from './_pages/private/private-users-edit/private-users-edit.component';
 import { HasRoleDirective } from './_directives/has-role.directive';
 import { RolesService } from './_services/roles.service';
+import { PrivateStoresComponent } from './_pages/private/private-stores/private-stores.component';
+import { PrivateStoresEditComponent } from './_pages/private/private-stores-edit/private-stores-edit.component';
 
 
 
@@ -48,7 +50,8 @@ import { RolesService } from './_services/roles.service';
         MatPaginatorModule,
         MatSnackBarModule,
         MatSortModule,
-        MatSelectModule
+        MatSelectModule,
+        MatTooltipModule
     ],
     declarations: [
         AppComponent,
@@ -59,7 +62,9 @@ import { RolesService } from './_services/roles.service';
         PrivateProductsComponent,
         PrivateProductsEditComponent,
         PrivateUsersEditComponent,
-        HasRoleDirective
+        HasRoleDirective,
+        PrivateStoresComponent,
+        PrivateStoresEditComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

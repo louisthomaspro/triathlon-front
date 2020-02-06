@@ -31,7 +31,7 @@ export class PrivateProductsComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.authentificationService.currentUserValue.data.roles.includes('ADMIN')) {
+    if (this.authentificationService.currentUserValue.data.roles.includes('ROLE_ADMIN')) {
       this.adminService.getProducts().pipe(first()).subscribe(products => {
         this.displayedColumns = ['name', 'quantity', 'store', 'action'];
         this.dataSource.data = products['hydra:member'];

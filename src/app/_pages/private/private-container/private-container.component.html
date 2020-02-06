@@ -5,8 +5,11 @@
             <a mat-list-item routerLink="/products">
               <mat-icon>list</mat-icon>Product
             </a>
-            <a *appHasRole="'STORE_MANAGER'" mat-list-item routerLink="/users">
+            <a *appHasRole="'ROLE_STORE_MANAGER'" mat-list-item routerLink="/users">
               <mat-icon>group</mat-icon>Users
+            </a>
+            <a *appHasRole="'ROLE_ADMIN'" mat-list-item routerLink="/stores">
+              <mat-icon>store</mat-icon>Stores
             </a>
           </mat-nav-list>
     </mat-drawer>

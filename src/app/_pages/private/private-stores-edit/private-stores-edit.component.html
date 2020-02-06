@@ -1,0 +1,14 @@
+<h3>Store creation</h3>
+
+<form [formGroup]="storeForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+        <mat-form-field>
+            <input matInput placeholder="Store name" formControlName="name">
+        </mat-form-field>
+    </div>
+
+    <button mat-stroked-button color="warn" class="mx-1" routerLink="../">Cancel</button>
+    <button mat-raised-button color="primary" class="mx-1">Save</button>
+
+</form>

@@ -5,6 +5,8 @@ import { PrivateContainerComponent } from '../private-container/private-containe
 import { StoreService } from '@/_services/store.service';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { AuthenticationService } from '@/_services/authentication.service';
+import { AdminService } from '@/_services/admin.service';
 
 @Component({
   selector: 'app-private-users-edit',
@@ -14,21 +16,49 @@ import { first } from 'rxjs/operators';
 export class PrivateUsersEditComponent implements OnInit {
 
   userForm: FormGroup;
-
+  isAdmin: boolean = false;
+  stores = [];
+  roles = [
+    {
+      name: "Admin",
+      id: "ROLE_ADMIN"
+    },
+    {
+      name: "Store manager",
+      id: "ROLE_STORE_MANAGER"
+    },
+    {
+      name: "Seller",
+      id: "ROLE_SELLER"
+    }
+  ];
 
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private privateContainerComponent: PrivateContainerComponent,
     private storeService: StoreService,
-    private router: Router
+    private router: Router,
+    private authentificationService: AuthenticationService,
+    private adminService: AdminService
   ) { }
 
   ngOnInit() {
+
+    this.isAdmin = this.authentificationService.currentUserValue.data.roles.includes('ROLE_ADMIN');
+
     this.userForm = this.formBuilder.group({
       email: ['', [Validators.required]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required]],
+      role: ['', this.isAdmin ? [Validators.required] : []],
+      store: ['', []]
     });
+
+    if (this.isAdmin) {
+      this.adminService.getStores().pipe(first()).subscribe(stores => {
+        this.stores = stores['hydra:member'];
+      });
+    }
   }
 
   get f() { return this.userForm.controls; }
@@ -56,10 +86,25 @@ export class PrivateUsersEditComponent implements OnInit {
     }
 
 
+    let roleId = "SELLER";
+    if (this.isAdmin) {
+      roleId = this.f.role.value;
+    } else {
+      roleId = this.privateContainerComponent.getStoreId();
+    }
+
+    let storeId = null;
+    if (this.isAdmin) {
+      storeId = this.f.store.value;
+    } else {
+      storeId = this.privateContainerComponent.getStoreId();
+    }
+
     let user = {
       "email": this.f.email.value,
       "password": this.f.password.value,
-      "store": this.privateContainerComponent.getStoreId()
+      "store": storeId,
+      "role": roleId
     }
 
     this.storeService.addUser(user).pipe(first()).subscribe(

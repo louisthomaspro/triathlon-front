@@ -1,0 +1,45 @@
+<h3>Stores</h3>
+
+<div class="mb-3">
+  <button mat-raised-button color="primary" class="mx-1" routerLink="new">Create</button>
+</div>
+
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtre (ex: Décathlon Campus)">
+</mat-form-field>
+
+<div class="mat-elevation-z3">
+  <table mat-table [dataSource]="dataSource" matSort matSortActive="name" matSortDirection="asc">
+
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="numberOfUsers">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Number of users </th>
+      <td mat-cell *matCellDef="let row"><span matTooltip="{{displayUsersEmails(row.users)}}"
+        matTooltipPosition="right">{{row.users.length}}</span></td>
+    </ng-container>
+
+    <ng-container matColumnDef="numberOfProducts">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Number of products </th>
+      <td mat-cell *matCellDef="let row"><span matTooltip="{{displayProductNames(row.products)}}"
+        matTooltipPosition="right">{{row.products.length}}</span></td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+      <td mat-cell *matCellDef="let row">
+        <button *appHasRole="'ROLE_STORE_MANAGER'" mat-stroked-button color="warn" class="mx-1" (click)="deleteStore(row)">Delete</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons></mat-paginator>
+</div>

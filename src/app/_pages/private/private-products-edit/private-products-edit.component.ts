@@ -17,6 +17,7 @@ export class PrivateProductsEditComponent implements OnInit {
 
   productForm: FormGroup;
   stores = [];
+  isAdmin: boolean = false;
 
 
   constructor(
@@ -33,14 +34,18 @@ export class PrivateProductsEditComponent implements OnInit {
     this.productForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       quantity: [0, [Validators.required]],
-      store: ['', [Validators.required]]
+      store: ['', this.isAdmin ? [Validators.required] : []]
     });
+
+    this.isAdmin = this.authentificationService.currentUserValue.data.roles.includes('ROLE_ADMIN');
     
-    if (this.authentificationService.currentUserValue.data.roles.includes('ADMIN')) {
+    if (this.isAdmin) {
       this.adminService.getStores().pipe(first()).subscribe(stores => {
         this.stores = stores['hydra:member'];
       });
     }
+    
+    
   }
 
   get f() { return this.productForm.controls; }
@@ -69,7 +74,7 @@ export class PrivateProductsEditComponent implements OnInit {
 
 
     let storeId = "0";
-    if (this.authentificationService.currentUserValue.data.roles.includes('ADMIN')) {
+    if (this.isAdmin) {
       storeId = this.f.store.value;
     } else {
       storeId = this.privateContainerComponent.getStoreId();

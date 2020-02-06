@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '@/_services/authentication.service';
 import { User } from '@/_models/user';
 import { StoreService } from '@/_services/store.service';
+import { AuthenticationService } from '@/_services/authentication.service';
 
 @Component({
   selector: 'app-private-container',

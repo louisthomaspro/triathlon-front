@@ -4,6 +4,8 @@ import { PrivateContainerComponent } from '../private-container/private-containe
 import { first } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from '@/_dialogs/confirmation-dialog/confirmation-dialog.component';
 import { StoreService } from '@/_services/store.service';
+import { AdminService } from '@/_services/admin.service';
+import { AuthenticationService } from '@/_services/authentication.service';
 
 @Component({
   selector: 'app-private-users',
@@ -12,27 +14,42 @@ import { StoreService } from '@/_services/store.service';
 })
 
 export class PrivateUsersComponent implements OnInit {
-  displayedColumns: string[] = ['email', 'roles', 'action'];
+  displayedColumns: string[];
   dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
+  currentEmail: string;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     private storeService: StoreService,
+    private adminService: AdminService,
     private privateContainer: PrivateContainerComponent,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private authentificationService: AuthenticationService
   ) {
   }
 
   ngOnInit() {
-    this.storeService.getUsers(this.privateContainer.getStoreId()).pipe(first()).subscribe(users => {
-      this.dataSource.data = users['hydra:member'];
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      console.log(users);
-    });
+    this.currentEmail = this.authentificationService.currentUserValue.data.email;
+    if (this.authentificationService.currentUserValue.data.roles.includes('ROLE_ADMIN')) {
+      this.adminService.getUsers().pipe(first()).subscribe(users => {
+        this.displayedColumns = ['email', 'roles', 'store', 'action'];
+        this.dataSource.data = users['hydra:member'];
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        console.log(users);
+      });
+    } else {
+      this.storeService.getUsers(this.privateContainer.getStoreId()).pipe(first()).subscribe(users => {
+        this.displayedColumns = ['email', 'roles', 'action'];
+        this.dataSource.data = users['hydra:member'];
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        console.log(users);
+      });
+    }
   }
 
   applyFilter(filterValue: string) {
