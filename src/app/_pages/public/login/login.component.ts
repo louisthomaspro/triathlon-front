@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 
 import { AuthenticationService } from '@/_services/authentication.service';
 import { AlertService } from '@/_services/alert.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
     templateUrl: 'login.component.html',
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private snackBar: MatSnackBar
     ) {
         // redirect to home if already logged in
         if (this.authenticationService.currentUserValue) {
@@ -72,6 +74,17 @@ export class LoginComponent implements OnInit {
                 },
                 error => {
                     this.alertService.error(error.message);
+                    console.log(error);
+                    if (error == 'Invalid credentials.') {
+                        this.snackBar.open('Invalid credentials !! Retry :)', '', {
+                            duration: 3000
+                        });
+                    } else {
+                        this.snackBar.open('Unkown error.. pls try later :)', '', {
+                            duration: 3000
+                        });
+                    }
+
                     this.loading = false;
                 });
     }
