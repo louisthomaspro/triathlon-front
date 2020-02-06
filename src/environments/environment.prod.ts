@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://monpanier-api.herokuapp.com/api/v1'
+  apiUrl: 'https://triathlon-api.herokuapp.com/api/v1'
 };
