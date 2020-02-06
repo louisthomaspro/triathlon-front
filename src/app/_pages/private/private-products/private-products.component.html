@@ -1,7 +1,7 @@
 <h3>Products</h3>
 
 <div class="mb-3">
-  <button mat-raised-button color="primary" class="mx-1" routerLink="new">Create</button>
+  <button *appHasRole="'ROLE_STORE_MANAGER'" mat-raised-button color="primary" class="mx-1" routerLink="new">Create</button>
 </div>
 
 <mat-form-field>
@@ -22,12 +22,17 @@
       <td mat-cell *matCellDef="let row"> {{row.quantity}}</td>
     </ng-container>
 
+    <ng-container matColumnDef="store">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Store </th>
+      <td mat-cell *matCellDef="let row"> {{row.store.name}}</td>
+    </ng-container>
+
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
       <td mat-cell *matCellDef="let row">
         <button mat-stroked-button color="primary" class="mx-1" (click)="decProduct(row)">-</button>
         <button mat-stroked-button color="primary" class="mx-1" (click)="incProduct(row)">+</button>
-        <button *appHasRole="'STORE_MANAGER'" mat-stroked-button color="warn" class="mx-1" (click)="deleteProduct(row)">Delete</button>
+        <button *appHasRole="'ROLE_STORE_MANAGER'" mat-stroked-button color="warn" class="mx-1" (click)="deleteProduct(row)">Delete</button>
       </td>
     </ng-container>
 

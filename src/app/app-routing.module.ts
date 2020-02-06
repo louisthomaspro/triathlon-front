@@ -8,6 +8,8 @@ import { PrivateUsersComponent } from './_pages/private/private-users/private-us
 import { PrivateProductsComponent } from './_pages/private/private-products/private-products.component';
 import { PrivateProductsEditComponent } from './_pages/private/private-products-edit/private-products-edit.component';
 import { PrivateUsersEditComponent } from './_pages/private/private-users-edit/private-users-edit.component';
+import { PrivateStoresComponent } from './_pages/private/private-stores/private-stores.component';
+import { PrivateStoresEditComponent } from './_pages/private/private-stores-edit/private-stores-edit.component';
 
 
 const routes: Routes = [
@@ -28,25 +30,37 @@ const routes: Routes = [
                 path: 'products',
                 component: PrivateProductsComponent,
                 canActivate: [AuthGuard],
-                data: { role: 'SELLER' }
+                data: { role: 'ROLE_SELLER' }
             },
             {
                 path: 'products/new',
                 component: PrivateProductsEditComponent,
                 canActivate: [AuthGuard],
-                data: { role: 'SELLER' }
+                data: { role: 'ROLE_STORE_MANAGER' }
             },
             {
                 path: 'users',
                 component: PrivateUsersComponent,
                 canActivate: [AuthGuard],
-                data: { role: 'ADMIN' }
+                data: { role: 'ROLE_STORE_MANAGER' }
             },
             {
                 path: 'users/new',
                 component: PrivateUsersEditComponent,
                 canActivate: [AuthGuard],
-                data: { role: 'ADMIN' }
+                data: { role: 'ROLE_STORE_MANAGER' }
+            },
+            {
+                path: 'stores',
+                component: PrivateStoresComponent,
+                canActivate: [AuthGuard],
+                data: { role: 'ROLE_ADMIN' }
+            },
+            {
+                path: 'stores/new',
+                component: PrivateStoresEditComponent,
+                canActivate: [AuthGuard],
+                data: { role: 'ROLE_ADMIN' }
             }
         ],
     },
