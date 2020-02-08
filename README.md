@@ -17,7 +17,7 @@ For the followings commands, you have to install [Angular CLI](https://github.co
 
 ``` sh
 git clone https://github.com/louisthomaspro/triathlon-front
-cd tirathlon-front
+cd triathlon-front
 ```
 
 2. Run docker-compose
