@@ -1,37 +1,45 @@
-# HelloWorld
+# Triathlon front
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.20.
+Web applications allowing the management of stocks of several stores.
+Several roles are available:
 
-## Development server
+* Administrator (management of all stores)
+* Store manager (product and seller management for his store)
+* Seller (management of the quantity of stock in his store)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The API application is available [here](https://github.com/louisthomaspro/triathlon-api).
 
-## Code scaffolding
+For the followings commands, you have to install [Angular CLI](https://github.com/angular/angular-cli).
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Installation
 
-## Build
+1. Clone
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+``` sh
+git clone https://github.com/louisthomaspro/triathlon-front
+cd tirathlon-front
+```
 
-## Running unit tests
+2. Run docker-compose
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+``` sh
+docker-compose up -d
+```
 
-## Running end-to-end tests
+3. This front is working with [Triathlon API](https://github.com/louisthomaspro/triathlon-api), you have to install it.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Useful commands
 
-## Further help
+Remove all containers and image of docker
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-
-
-# will remove everything
+``` sh
 docker container rm -f $(docker container ls -qa)
 docker image rm -f $(docker image ls -q)
+```
 
-https://stackoverflow.com/questions/38425996/docker-compose-volume-on-node-modules-but-is-empty
+Copy docker node_modules to local
 
-docker ps
-docker cp bc159b90db88:/app/node_modules /home/louis/Public/triathlon-front/
+``` sh
+docker cp CONTAINER_ID:/app/node_modules /your/directory/triathlon-front/
+```
+
